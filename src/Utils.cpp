@@ -3,12 +3,15 @@
 #include <limits>
 #include <thread>
 #include <chrono>
+#include <cerrno>
+#include <cstring>
 
 #ifdef _WIN32
-    #include <direct.h>  // For _mkdir on Windows
+    #include <direct.h>
 #else
     #include <sys/stat.h>
     #include <sys/types.h>
+    #include <unistd.h>
 #endif
 
 using namespace std;
@@ -16,29 +19,29 @@ using namespace std;
 namespace Utils {
 
     void createDirectoryIfNotExists(const std::string& path) {
-#ifdef _WIN32
-        int result = _mkdir(path.c_str());
+        #ifdef _WIN32
+            int result = _mkdir(path.c_str());
+        #else
+            int result = mkdir(path.c_str(), 0755);
+        #endif
+
         if (result == 0) {
             cout << "[INFO] Created directory: " << path << "\n";
+        } else if (errno != EEXIST) {
+            cout << "[WARNING] Could not create directory: " << path
+                 << " (Error: " << strerror(errno) << ")\n";
         }
-#else
-        int result = mkdir(path.c_str(), 0777);
-        if (result == 0) {
-            cout << "[INFO] Created directory: " << path << "\n";
-        }
-#endif
     }
 
     void clearScreen() {
-        cout.flush();  // Flush output buffer first
+        cout.flush();
 
         #ifdef _WIN32
-                system("cls");
+            system("cls");
         #else
-                system("clear");
+            system("clear");
         #endif
 
-        // Small delay to ensure screen is cleared
         std::this_thread::sleep_for(std::chrono::milliseconds(50));
     }
 
@@ -51,6 +54,7 @@ namespace Utils {
     void sleep(int seconds) {
         std::this_thread::sleep_for(std::chrono::seconds(seconds));
     }
+
     int getIntInput(const string& prompt, int min, int max) {
         int value;
         while (true) {
@@ -102,5 +106,4 @@ namespace Utils {
     void printSuccess(const string& message) {
         cout << "[SUCCESS] " << message << "\n";
     }
-
-} // End of namespace Utils
+}

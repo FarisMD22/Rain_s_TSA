@@ -2,9 +2,9 @@
 #define USERMANAGER_H
 
 #include <string>
-#include <map>
 
-// User roles for RBAC (Role-Based Access Control)
+
+// User roles
 enum UserRole {
     ADMIN,
     DOCTOR,
@@ -22,14 +22,19 @@ struct User {
         : username(u), password(p), role(r) {}
 };
 
-// Task Owner: Member 3 or 4
+// Constant for maximum users
+const int MAX_USERS = 50;
+
 class UserManager {
 private:
-    std::map<std::string, User> users;  // username -> User
+
+    User users[MAX_USERS];
+    int userCount;
+
     User currentUser;
     bool isLoggedIn;
 
-    void initializeDefaultUsers();      // Hardcoded default accounts
+    void initializeDefaultUsers();
 
 public:
     UserManager();

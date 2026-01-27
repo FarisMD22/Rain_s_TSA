@@ -3,6 +3,7 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <iomanip>
 using namespace std;
 
 QueueADT::QueueADT() : front(nullptr), rear(nullptr), size(0) {}
@@ -99,18 +100,38 @@ void QueueADT::display() const {
     Node* current = front;
     int position = 1;
 
-    cout << "\nPosition | ID    | Name                | Priority | Condition\n";
-    cout << "---------|-------|---------------------|----------|-------------------\n";
+    // Top border
+    cout << "\n" << string(95, '=') << "\n";
+    cout << "  INTELLIGENT CLINIC QUEUE MANAGEMENT SYSTEM - PATIENT WAITING QUEUE\n";
+    cout << string(95, '=') << "\n";
 
+    // Header row
+    cout << left
+         << setw(5) << "Pos" << " | "
+         << setw(8) << "ID" << " | "
+         << setw(25) << "Name" << " | "
+         << setw(10) << "Priority" << " | "
+         << "Condition\n";
+
+    // Separator line
+    cout << string(95, '-') << "\n";
+
+    // Data rows
     while (current != nullptr) {
-        cout << position << "        | "
-             << current->data.id << " | "
-             << current->data.name << " | "
-             << current->data.priority << "        | "
+        cout << left
+             << setw(5) << position << " | "
+             << setw(8) << current->data.id << " | "
+             << setw(25) << current->data.name << " | "
+             << setw(10) << current->data.priority << " | "
              << current->data.condition << "\n";
+
         current = current->next;
         position++;
     }
+
+    // Bottom border
+    cout << string(95, '-') << "\n";
+    cout << "Total in queue: " << size << "\n\n";
 }
 
 void QueueADT::saveToFile(const string& filename) const {
