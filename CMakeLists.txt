@@ -8,11 +8,11 @@ include_directories(include)
 
 # Source files
 set(SOURCES
-        src/main.cpp
-        src/Utils.cpp
-        src/UserManager.cpp
-        src/QueueADT.cpp
-        src/LinkedListADT.cpp
+        ${CMAKE_SOURCE_DIR}/src/main.cpp
+        ${CMAKE_SOURCE_DIR}/src/Utils.cpp
+        ${CMAKE_SOURCE_DIR}/src/UserManager.cpp
+        ${CMAKE_SOURCE_DIR}/src/QueueADT.cpp
+        ${CMAKE_SOURCE_DIR}/src/LinkedListADT.cpp
 )
 
 # Create executable

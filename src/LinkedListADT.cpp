@@ -161,21 +161,39 @@ void LinkedListADT::displayAll() const {
     }
 
     Node* current = head;
-    cout << "\n=== PATIENT RECORDS ===\n";
-    cout << "ID    | Name                | Age | Priority | Condition\n";
-    cout << "------|---------------------|-----|----------|-------------------\n";
 
+    // Top border
+    cout << "\n" << string(90, '=') << "\n";
+    cout << "  ALL PATIENT RECORDS\n";
+    cout << string(90, '=') << "\n";
+
+    // Header row
+    cout << left
+         << setw(8) << "ID" << " | "
+         << setw(25) << "Name" << " | "
+         << setw(5) << "Age" << " | "
+         << setw(10) << "Priority" << " | "
+         << "Condition\n";
+
+    // Separator line
+    cout << string(90, '-') << "\n";
+
+    // Data rows
     while (current != nullptr) {
-        cout << current->data.id << " | "
-             << current->data.name << " | "
-             << current->data.age << "  | "
-             << current->data.priority << "        | "
+        cout << left
+             << setw(8) << current->data.id << " | "
+             << setw(25) << current->data.name << " | "
+             << setw(5) << current->data.age << " | "
+             << setw(10) << current->data.priority << " | "
              << current->data.condition << "\n";
+
         current = current->next;
     }
-    cout << "\nTotal patients: " << count << "\n";
-}
 
+    // Bottom border
+    cout << string(90, '-') << "\n";
+    cout << "Total patients: " << count << "\n\n";
+}
 void LinkedListADT::displayReverse() const {
     if (tail == nullptr) {
         cout << "No patient records found.\n";
